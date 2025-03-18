@@ -2,10 +2,10 @@ import { useSelector } from "react-redux";
 import { YourCart, DessertsList } from "./components";
 
 export default function App() {
-  const { desserts, selectedDesserts, totalAmount, totalPrice } = useSelector(
+  const { desserts, totalAmount, totalPrice } = useSelector(
     (store) => store.cart
   );
-  console.log(selectedDesserts, totalAmount, totalPrice);
+  console.log(desserts, totalAmount, totalPrice);
   return (
     <main>
       <section className="container grid-container">

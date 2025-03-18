@@ -2,8 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import desserts from "../../data";
 
 const initialState = {
-    desserts,
-    selectedDesserts: [],
+    desserts: [...desserts],
     totalAmount: 0,
     totalPrice: 0,
 };
@@ -13,16 +12,23 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, { payload }) => {
-            state.selectedDesserts = [...state.selectedDesserts, payload];
+            const item = [...state.desserts].find((d) => d.id == payload);
+            item.amount = 1;
             cartSlice.caseReducers.calculateTotal(state);
         },
         increaseQuantity: (state, { payload }) => {
+            const item = [...state.desserts].find((d) => d.id == payload);
+            item.amount += 1;
             cartSlice.caseReducers.calculateTotal(state);
         },
         decreaseQuantity: (state, { payload }) => {
+            const item = [...state.desserts].find((d) => d.id == payload);
+            item.amount -= 1;
             cartSlice.caseReducers.calculateTotal(state);
         },
         removeFromCart: (state, { payload }) => {
+            const item = [...state.desserts].find((d) => d.id == payload);
+            item.amount = 0;
             cartSlice.caseReducers.calculateTotal(state);
         },
         resetCart: (state, { payload }) => {},
@@ -30,7 +36,7 @@ const cartSlice = createSlice({
             let allPrice = 0;
             let allAmount = 0;
 
-            state.selectedDesserts.forEach((d) => {
+            state.desserts.forEach((d) => {
                 allPrice += d.amount * d.price;
                 allAmount += d.amount;
             });

@@ -1,18 +1,37 @@
-import React from "react";
-import desserts from "../data";
+import { useSelector } from "react-redux";
+import CartItem from "./CartItem";
 
 export default function YourCart() {
-  if (desserts.length == 0) {
-    return (
-      <section className="orders-section">
-        <div className="orders-container">
-          <h2 className="orders-heading">Your Cart (0)</h2>
-
+  const { totalAmount, desserts, totalPrice } = useSelector(
+    (store) => store.cart
+  );
+  return (
+    <div className="your-cart">
+      <h2 className="your-cart-title">Your Cart ({totalAmount})</h2>
+      {desserts.map((d) => {
+        return d.amount !== 0 && <CartItem key={d.id} d={d} />;
+      })}
+      {totalAmount == 0 && (
+        <div className="your-cart-empty">
           <img src="./images/illustration-empty-cart.svg" alt="" />
-          <p className="orders-text">Your added items will appear here</p>
+          <p>Your added items will appear here</p>
         </div>
-      </section>
-    );
-  }
-  return <h2>You are dumb</h2>;
+      )}
+      {totalAmount !== 0 && (
+        <div>
+          <div className="order-total">
+            <p>Order Total</p>
+            <h2>${totalPrice}</h2>
+          </div>
+          <div className="delivery">
+            <img src="./images/icon-carbon-neutral.svg" alt="" />
+            <p>
+              This is a <strong>carbon-neutral</strong> delivery
+            </p>
+          </div>
+          <button className="order-btn">Confirm Order</button>
+        </div>
+      )}
+    </div>
+  );
 }

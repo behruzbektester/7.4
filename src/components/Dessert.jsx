@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   increaseQuantity,
@@ -8,23 +8,28 @@ import {
 
 export default function Dessert({ d }) {
   const dispatch = useDispatch();
-  const [alreadyAdded, setAlreadyAdded] = useState(false);
+  const [alreadyAdded, setAlreadyAdded] = useState(d.amount !== 0);
 
-  const addDessert = (d) => {
-    dispatch(
-      addToCart({
-        amount: 1,
-        ...d,
-      })
-    );
+  useEffect(() => {
+    setAlreadyAdded(d.amount !== 0);
+  }, [d.amount]);
+
+  const addDessert = () => {
+    dispatch(addToCart(d.id));
   };
+
   return (
     <div className="cart">
       <picture>
         <source media="(min-width: 1025px)" srcSet={d.image.desktop} />
         <source media="(min-width: 768px)" srcSet={d.image.tablet} />
         <source media="(min-width: 350px)" srcSet={d.image.mobile} />
-        <img className="card-image" src={d.image.thumbnail} alt={d.name} />
+        <img
+          style={{ borderColor: alreadyAdded && "#C73B0F" }}
+          className="card-image"
+          src={d.image.thumbnail}
+          alt={d.name}
+        />
       </picture>
 
       <div className="buttons-wrapper">
@@ -49,7 +54,10 @@ export default function Dessert({ d }) {
         )}
         {alreadyAdded && (
           <div className="increment-decrement-btns">
-            <button className="amount-change-btn">
+            <button
+              onClick={() => dispatch(decreaseQuantity(d.id))}
+              className="amount-change-btn"
+            >
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -62,8 +70,11 @@ export default function Dessert({ d }) {
                 </svg>
               </span>
             </button>
-            <span className="amount">1</span>
-            <button className="amount-change-btn">
+            <span className="amount">{d.amount}</span>
+            <button
+              onClick={() => dispatch(increaseQuantity(d.id))}
+              className="amount-change-btn"
+            >
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
