@@ -380,3 +380,55 @@ ol {
         background-color: #952c0b;
     }
 }
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #00000080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--color-white);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding: var(--spacing-800);
+}
+
+.modal-text {
+    h2 {
+        color: var(--color-rose-900);
+        font-size: var(--text-preset-1-size);
+        font-weight: 700;
+        line-height: var(--text-preset-1-line-height);
+        padding-bottom: 8px;
+    }
+    p {
+        color: var(--color-rose-500);
+    }
+}
+
+.close-btn {
+    border-radius: 999px;
+    background: var(--color-red);
+    color: var(--color-white);
+    cursor: pointer;
+    width: 100%;
+    font-size: var(--text-preset-3-size);
+    font-weight: 600;
+    padding: var(--spacing-300);
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-100);
+    transition: 0.3s;
+    &:hover {
+        background-color: #952c0b;
+    }
+}
